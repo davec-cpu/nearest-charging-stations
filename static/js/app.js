@@ -3,6 +3,10 @@ console.log("hello world!!!");
 const map = L.map("map").setView([21.028511, 105.804817], 14);
 
 const chargingStationLayer = L.layerGroup().addTo(map);
+const userIcon = L.icon({
+    iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
+    shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+});
 
 L.tileLayer(
     "https://tile.openstreetmap.org/{z}/{x}/{y}.png", 
@@ -35,9 +39,11 @@ function onLocationSuccess(position){
 
     map.setView([latitude, longitude], 16);
 
-    L.marker([latitude, longitude])
+    L.marker([latitude, longitude], {
+        icon: userIcon
+    })
         .addTo(map)
-        .bindPopup("Got a long list of ex-lovers, they're all looking at me like I'm a f***ing psycho")
+        .bindPopup("Bạn đang ở đây")
         .openPopup();
 }
 
@@ -80,6 +86,7 @@ async function loadNearbyStations(latitude, longitude){
         console.error("Lỗi khi tải các trạm sạc gần đó: ", error);
     }
 }
+
 function renderChangingStations(stations){
     chargingStationLayer.clearLayers();
     for (const station of stations){
